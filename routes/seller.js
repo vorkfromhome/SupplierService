@@ -126,4 +126,77 @@ router.get('/listproducts', function (req, res, next) {
         });
     });
 });
+
+
+
+/* GET home page. */
+router.get('/profileregister', function (req, res, next) {
+    var items = {
+        "name": req.query.name
+        , "email": req.query.email
+        , "secure_question": req.query.secure_question
+        , "secure_answer": req.query.secure_answer
+        , "country": req.query.country
+        , "state": req.query.state
+        , "zip": req.query.zip
+        , "doorno": req.query.doorno
+        , "floor": req.query.floor
+        , "addressone": req.query.addressone
+        , "addresstwo": req.query.addresstwo
+        , "taluk": req.query.taluk
+    , };
+    var conditions = {
+        "mobilenum": req.query.mobilenum
+    };
+    MongoClient.connect(url, function (err, db) {
+        assert.equal(null, err);
+        db.collection('userdata').updateOne(conditions, {
+            $set: items
+            , $currentDate: {
+                "lastModified": true
+            }
+        }, function (err, result) {
+            assert.equal(err, null);
+            res.json({
+                "status": items
+            });
+        });
+    });
+});
+/* GET home page. */
+router.get('/profiletworegister', function (req, res, next) {
+    var items = {
+        "busname": req.query.busname
+        , "tin": req.query.tin
+        , "licensenum": req.query.License
+        , "vat": req.query.vat
+        , "fax": req.query.FAX
+        , "busphone": req.query.busmobile
+        , "busmail": req.query.email
+    };
+    var conditions = {
+        "mobilenum": req.query.mobilenum
+    };
+    MongoClient.connect(url, function (err, db) {
+        assert.equal(null, err);
+        db.collection('userdata').updateOne(conditions, {
+            $set: items
+            , $currentDate: {
+                "lastModified": true
+            }
+        }, function (err, result) {
+            assert.equal(err, null);
+            res.json({
+                "status": "success"
+                , "items": items
+            });
+        });
+    });
+});
+
+
+
+
+
+
 module.exports = router;
